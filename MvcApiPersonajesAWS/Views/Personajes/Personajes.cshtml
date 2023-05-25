@@ -7,9 +7,9 @@
             $("#botoninsertar").click(function() {
                 var num = parseInt($("#cajaid").val());
                 var nom = $("#cajanombre").val();
-                var loc = $("#cajaimagen").val();
+                var img = $("#cajaimagen").val();
                 var objJson = convertPersonajesJson(num, nom, img);
-                var request = "/api/personajes/insertarpersonajes";
+                var request = "/api/personajes/insertarpersonaje";
                 $.ajax({
                     url: urlApi + request,
                     type: "POST",
@@ -28,10 +28,10 @@
                 var html = "";
                 $.each(data, function(index, pers){
                     html += "<tr>";
-                    html += "<td>" + pers.idpersonaje + "</td>";
+                    html += "<td>" + pers.idPersonaje + "</td>";
                     html += "<td>" + pers.nombre + "</td>";
                     html += "<td>";
-                    html += "<img src='" + pers.imagen + "' />";
+                    html += "<img src='" + pers.imagen + "' style='width: 150px; height: 150px'/>";
                     html += "</td>";
                     html += "</tr>";
                     $("#tablapersonajes tbody").html(html);
@@ -63,6 +63,7 @@
             var objJson = JSON.stringify(pers);
             return objJson;
         }
+
     </script>
 }
  
