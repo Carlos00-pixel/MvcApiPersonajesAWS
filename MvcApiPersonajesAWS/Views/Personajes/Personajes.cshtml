@@ -1,0 +1,90 @@
+﻿@section Scripts {
+    <script>
+        var urlApi = "https://3.82.38.170";
+        $(document).ready(function() {
+            cargarPersonajes();
+ 
+            $("#botoninsertar").click(function() {
+                var num = parseInt($("#cajaid").val());
+                var nom = $("#cajanombre").val();
+                var loc = $("#cajaimagen").val();
+                var objJson = convertPersonajesJson(num, nom, img);
+                var request = "/api/personajes/insertarpersonajes";
+                $.ajax({
+                    url: urlApi + request,
+                    type: "POST",
+                    data: objJson,
+                    contentType: "application/json",
+                    success: function(){
+                        cargarPersonajes();
+                    }
+                })
+            })
+        })
+ 
+        function cargarPersonajes() {
+            var request = "/api/personajes";
+            $.get(urlApi + request, function(data) {
+                var html = "";
+                $.each(data, function(index, pers){
+                    html += "<tr>";
+                    html += "<td>" + pers.idpersonaje + "</td>";
+                    html += "<td>" + pers.nombre + "</td>";
+                    html += "<td>";
+                    html += "<img src='" + pers.imagen + "' />";
+                    html += "</td>";
+                    html += "</tr>";
+                    $("#tablapersonajes tbody").html(html);
+                })
+            })
+            //$.ajax({
+            //    url: urlApi + request,
+            //    method: "GET",
+            //    dataType: "json",
+            //    success: function(data){
+            //        var html = "";
+            //        $.each(data, function(index, pers){
+            //            html += "<tr>";
+            //            html += "<td>" + pers.idPersonaje + "</td>";
+            //            html += "<td>" + pers.nombre + "</td>";
+            //            html += "<td>" + pers.imagen + "</td>";
+            //            html += "</tr>";
+            //            $("#tablapersonajes tbody").html(html);
+            //        })
+            //    }
+            //})
+        }
+ 
+        function convertPersonajesJson(num, nom, img){
+            var pers = new Object();
+            pers.idPersonaje = num;
+            pers.nombre = nom;
+            pers.imagen = img;
+            var objJson = JSON.stringify(pers);
+            return objJson;
+        }
+    </script>
+}
+ 
+<h1 style="color:blue">Api Crud Personajes</h1>
+
+<label>Id Personaje: </label>
+<input type="text" id="cajaid" class="form-control"/>
+<label>Nombre: </label>
+<input type="text" id="cajanombre" class="form-control"/>
+<label>Imagen: </label>
+<input type="text" id="cajaimagen" class="form-control"/>
+<button type="button" id="botoninsertar" class="btn btn-outline-dark">
+    Insert
+</button>
+<hr/>
+<table class="table table-bordered" id="tablapersonajes">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Imagen</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
