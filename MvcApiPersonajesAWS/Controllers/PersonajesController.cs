@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MvcApiPersonajesAWS.Models;
 using MvcApiPersonajesAWS.Services;
 
 namespace MvcApiPersonajesAWS.Controllers
@@ -12,9 +13,11 @@ namespace MvcApiPersonajesAWS.Controllers
             this.service = service;
         }
 
-        public IActionResult Cliente()
+        public async Task<IActionResult> Servidor()
         {
-            return View();
+            List<Personaje> personajes =
+                await this.service.GetPersonajesAsync();
+            return View(personajes);
         }
 
         public IActionResult Personajes()
