@@ -13,6 +13,12 @@ namespace MvcApiPersonajesAWS.Controllers
             this.service = service;
         }
 
+        public async Task<IActionResult> Test()
+        {
+            ViewData["TEST"] = await this.service.TestApiAsync();
+            return View();
+        }
+
         public async Task<IActionResult> Servidor()
         {
             List<Personaje> personajes =
